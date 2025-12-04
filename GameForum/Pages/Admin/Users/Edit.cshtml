@@ -1,0 +1,33 @@
+@page "{id:int}"
+@model GameForum.Pages.Admin.Users.EditModel
+@{
+    ViewData["Title"] = "Редактировать пользователя";
+}
+
+<h1>Редактировать пользователя</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id" />
+    <div class="mb-3">
+        <label asp-for="Input.Username" class="form-label"></label>
+        <input asp-for="Input.Username" class="form-control" />
+        <span asp-validation-for="Input.Username" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.DisplayName" class="form-label"></label>
+        <input asp-for="Input.DisplayName" class="form-control" />
+        <span asp-validation-for="Input.DisplayName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.NewPassword" class="form-label">Новый пароль (необязательно)</label>
+        <input asp-for="Input.NewPassword" type="password" class="form-control" />
+        <span asp-validation-for="Input.NewPassword" class="text-danger"></span>
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" asp-for="Input.IsAdmin" />
+        <label class="form-check-label" asp-for="Input.IsAdmin">Администратор</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a class="btn btn-secondary" href="/admin/users">Отмена</a>
+</form>
+

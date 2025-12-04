@@ -1,0 +1,148 @@
+:root {
+  --gf-bg: #0f1115;
+  --gf-bg-elev: #161a22;
+  --gf-panel: #1b1f2a;
+  --gf-text: #e6e8ee;
+  --gf-muted: #adb3c2;
+  --gf-primary: #5aa2ff;
+  --gf-primary-600: #3f8cf7;
+  --gf-accent: #9aa4b2;
+  --gf-border: #272c36;
+  --gf-code-bg: #0a0c10;
+  --gf-link: #89b4ff;
+  --gf-danger: #ff6b6b;
+}
+
+html[data-bs-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-bs-theme="dark"] body {
+  background: var(--gf-bg);
+  color: var(--gf-text);
+}
+
+/* Ссылки */
+html[data-bs-theme="dark"] a { color: var(--gf-link); }
+html[data-bs-theme="dark"] a:hover { color: #b1cbff; }
+
+/* Навбар, меню, дропдавн */
+html[data-bs-theme="dark"] .navbar-dark {
+  background-color: #121722 !important;
+  border-bottom: 1px solid var(--gf-border);
+}
+html[data-bs-theme="dark"] .dropdown-menu {
+  background: var(--gf-panel);
+  border: 1px solid var(--gf-border);
+  color: var(--gf-text);
+}
+html[data-bs-theme="dark"] .dropdown-item { color: var(--gf-text); }
+html[data-bs-theme="dark"] .dropdown-item:hover { background: #202636; }
+
+/* Карточки и панели */
+html[data-bs-theme="dark"] .card,
+html[data-bs-theme="dark"] .list-group,
+html[data-bs-theme="dark"] .accordion-item {
+  background: var(--gf-bg-elev);
+  border: 1px solid var(--gf-border);
+  color: var(--gf-text);
+}
+html[data-bs-theme="dark"] .card-header,
+html[data-bs-theme="dark"] .list-group-item {
+  background: #151b27;
+  border-color: var(--gf-border);
+}
+
+/* Кнопки */
+html[data-bs-theme="dark"] .btn { border-color: var(--gf-border); }
+html[data-bs-theme="dark"] .btn-primary {
+  color: #eaf2ff;
+  background-color: #27436e;
+  border-color: #2d4673;
+}
+html[data-bs-theme="dark"] .btn-primary:hover {
+  background-color: #325a95;
+  border-color: #224076;
+}
+html[data-bs-theme="dark"] .btn-outline-primary {
+  color: var(--gf-link);
+  border-color: #3a5482;
+}
+html[data-bs-theme="dark"] .btn-outline-primary:hover {
+  color: #eaf2ff;
+  background-color: #27436e;
+}
+html[data-bs-theme="dark"] .btn-danger {
+  color: #ffecec;
+  background-color: #6b3131;
+  border-color: #6b3131;
+}
+
+/* Формы */
+html[data-bs-theme="dark"] .form-control,
+html[data-bs-theme="dark"] .form-select,
+html[data-bs-theme="dark"] .form-check-input {
+  color: var(--gf-text);
+  background-color: #121722;
+  border: 1px solid var(--gf-border);
+}
+html[data-bs-theme="dark"] .form-control:focus,
+html[data-bs-theme="dark"] .form-select:focus,
+html[data-bs-theme="dark"] .form-check-input:focus {
+  border-color: #3a5482;
+  box-shadow: 0 0 0 .2rem rgba(90,162,255,.15);
+}
+html[data-bs-theme="dark"] .form-text { color: var(--gf-muted); }
+
+/* Таблицы */
+html[data-bs-theme="dark"] .table {
+  color: var(--gf-text);
+  background: var(--gf-bg-elev);
+  border-color: var(--gf-border);
+}
+html[data-bs-theme="dark"] .table thead th {
+  background: #1a2232;
+  color: #dbe4ff;
+  border-color: var(--gf-border);
+}
+html[data-bs-theme="dark"] .table td,
+html[data-bs-theme="dark"] .table th {
+  border-color: var(--gf-border);
+}
+
+/* Оповещения */
+html[data-bs-theme="dark"] .alert {
+  background: #141a24;
+  color: var(--gf-text);
+  border: 1px solid var(--gf-border);
+}
+html[data-bs-theme="dark"] .alert-danger {
+  background: #2a1a1a;
+  border-color: #6b3131;
+  color: #ffd6d6;
+}
+
+/* Модальные окна */
+html[data-bs-theme="dark"] .modal-content {
+  background: var(--gf-bg-elev);
+  color: var(--gf-text);
+  border: 1px solid var(--gf-border);
+}
+html[data-bs-theme="dark"] .modal-header,
+html[data-bs-theme="dark"] .modal-footer {
+  border-color: var(--gf-border);
+}
+
+/* Код */
+html[data-bs-theme="dark"] code,
+html[data-bs-theme="dark"] pre {
+  background: var(--gf-code-bg);
+  color: #e8eefc;
+  border: 1px solid var(--gf-border);
+}
+html[data-bs-theme="dark"] code { padding: .15rem .35rem; border-radius: .25rem; }
+html[data-bs-theme="dark"] pre { padding: 1rem; border-radius: .5rem; }
+
+/* Прочее */
+html[data-bs-theme="dark"] .text-muted { color: var(--gf-muted) !important; }
+html[data-bs-theme="dark"] hr { border-color: var(--gf-border); }

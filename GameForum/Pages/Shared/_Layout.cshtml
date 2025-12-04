@@ -1,0 +1,58 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpAccessor
+@{
+    var ctx = HttpAccessor.HttpContext;
+    var theme = ctx?.Request.Cookies["theme"] ?? "light";
+}
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="@theme">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Форум</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbars">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/forum">Темы</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-page="/ServerInfo">Инфо сервера</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/files">Файлы (PDF)</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-page="/Stats">Статистика</a></li>
+                    @if ((User?.FindFirst("isAdmin")?.Value ?? "") == bool.TrueString)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/admin">Админка</a></li>
+                    }
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/account/profile">@User.FindFirst("displayName")?.Value</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/account/preferences">Настройки</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/account/logout">Выйти</a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/account/login">Вход</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/account/register">Регистрация</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/account/preferences">Настройки</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

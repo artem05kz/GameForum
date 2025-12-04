@@ -1,0 +1,24 @@
+@page
+@model GameForum.Pages.Account.PreferencesModel
+@{
+    ViewData["Title"] = "Настройки";
+}
+<h1>Настройки</h1>
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Тема</label>
+        <select class="form-select" asp-for="Theme">
+            <option value="light">Светлая</option>
+            <option value="dark">Тёмная</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Язык интерфейса</label>
+        <select class="form-select" asp-for="Language">
+            <option value="ru-RU">Русский</option>
+            <option value="en-US">English</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+

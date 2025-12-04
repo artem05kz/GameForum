@@ -1,0 +1,75 @@
+@page "{id:int}"
+@model GameForum.Pages.Forum.TopicModel
+@{
+    ViewData["Title"] = Model.Topic?.Title ?? "Тема";
+}
+
+@if (Model.Topic == null)
+{
+    <div class="alert alert-danger">Тема не найдена.</div>
+}
+else
+{
+    <h1>@Model.Topic.Title</h1>
+    <div class="text-muted mb-3">Автор: @Model.Topic.CreatorName • Теги: @Model.Topic.Tags • Создана: @Model.Topic.CreatedAt.ToLocalTime()</div>
+
+    @if (Model.CanDeleteTopic)
+    {
+        <form method="post" asp-page-handler="DeleteTopic" onsubmit="return confirm('Удалить тему?');">
+            <input type="hidden" name="id" value="@Model.Topic.Id" />
+            <button type="submit" class="btn btn-sm btn-danger">Удалить тему</button>
+        </form>
+    }
+
+    <hr />
+    <h5>Сообщения</h5>
+    @if (!Model.Messages.Any())
+    {
+        <div class="text-muted">Пока нет сообщений.</div>
+    }
+    else
+    {
+        <ul class="list-group mb-3">
+        @foreach (var m in Model.Messages)
+        {
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div>@m.Content</div>
+                        <div class="text-muted small">Автор: @m.AuthorName • @m.CreatedAt.ToLocalTime() @(m.UpdatedAt.HasValue ? $"• ред. {m.UpdatedAt.Value.ToLocalTime()}" : "")</div>
+                    </div>
+                    <div>
+                        @if (m.CanEdit)
+                        {
+                            <a class="btn btn-sm btn-outline-primary" href="/forum/messages/edit/@m.Id">Изменить</a>
+                        }
+                        @if (m.CanDelete)
+                        {
+                            <form method="post" asp-page-handler="DeleteMessage" class="d-inline" onsubmit="return confirm('Удалить сообщение?');">
+                                <input type="hidden" name="messageId" value="@m.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+        </ul>
+    }
+
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <form method="post" asp-page-handler="CreateMessage">
+            <div class="mb-3">
+                <label class="form-label">Новое сообщение</label>
+                <textarea class="form-control" name="content" rows="3" required maxlength="2000"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    }
+    else
+    {
+        <p><a href="/account/login">Войдите</a>, чтобы писать сообщения.</p>
+    }
+}
+

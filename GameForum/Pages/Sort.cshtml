@@ -1,0 +1,34 @@
+﻿@page "/Sort/{array?}"
+@model GameForum.Pages.SortModel
+@{
+    ViewData["Title"] = "Сортировка массива";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Быстрая сортировка массива</h2>
+
+    @if (Model.HasArray)
+    {
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Результат сортировки</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Исходный массив:</strong> @Model.OriginalArrayText</p>
+                <p><strong>Отсортированный массив:</strong> @Model.SortedArrayText</p>
+            </div>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Инструкция:</h5>
+            <p>Используйте URL: <code>/Sort/числа,через,запятую</code></p>
+            <p>Примеры:</p>
+            <ul>
+                <li><a href="/Sort/5,2,8,1,9">/Sort/5,2,8,1,9</a></li>
+                <li><a href="/Sort/10,3,7,4,2,9">/Sort/10,3,7,4,2,9</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

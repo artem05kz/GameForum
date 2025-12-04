@@ -1,0 +1,49 @@
+@page
+@model GameForum.Pages.Files.IndexModel
+@{
+    ViewData["Title"] = "Файлы (PDF)";
+}
+<h1>Файлы (PDF)</h1>
+
+<form method="post" enctype="multipart/form-data" class="mb-4">
+    <div class="mb-3">
+        <label class="form-label">Загрузить PDF</label>
+        <input class="form-control" type="file" name="file" accept="application/pdf" />
+    </div>
+    <button class="btn btn-primary" type="submit">Загрузить</button>
+</form>
+
+@if (Model.Files.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Загрузил</th>
+                <th>Размер</th>
+                <th>Дата</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var f in Model.Files)
+        {
+            <tr>
+                <td>@f.Name</td>
+                <td>@f.Uploader</td>
+                <td>@(f.Length / 1024) KB</td>
+                <td>@f.LastModified.ToLocalTime()</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" href="/files?handler=Download&name=@Uri.EscapeDataString(f.Name)">Скачать</a>
+                    <a class="btn btn-sm btn-outline-danger" href="/files?handler=Delete&name=@Uri.EscapeDataString(f.Name)" onclick="return confirm('Удалить файл?');">Удалить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-muted">Файлы отсутствуют.</div>
+}
+

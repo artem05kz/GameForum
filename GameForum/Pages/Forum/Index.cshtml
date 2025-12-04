@@ -1,0 +1,44 @@
+﻿@page
+@model GameForum.Pages.Forum.IndexModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Title"];
+    var theme = Request.Cookies["theme"] ?? HttpContext.Session.GetString("theme") ?? "light";
+    var dark = string.Equals(theme, "dark", System.StringComparison.OrdinalIgnoreCase);
+}
+<h1 class="@(dark ? "text-light" : null)">@Localizer["Topics"]</h1>
+
+@if (User.Identity?.IsAuthenticated ?? false)
+{
+    <form method="post" class="mb-4 @(dark ? "text-light" : null)">
+        <div class="mb-2">
+            <label asp-for="Input.Title" class="form-label">@Localizer["TopicTitle"]</label>
+            <input asp-for="Input.Title" class="form-control @(dark ? "bg-dark text-light border-secondary" : null)" />
+            <span asp-validation-for="Input.Title" class="text-danger"></span>
+        </div>
+        <div class="mb-2">
+            <label asp-for="Input.Tags" class="form-label">@Localizer["TagsLabel"]</label>
+            <input asp-for="Input.Tags" class="form-control @(dark ? "bg-dark text-light border-secondary" : null)" />
+            <span asp-validation-for="Input.Tags" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">@Localizer["CreateTopic"]</button>
+    </form>
+}
+else
+{
+    <p>@Localizer["LoginToCreate"]</p>
+}
+
+<ul class="list-group @(dark ? "list-group-flush" : null)">
+@foreach (var t in Model.Topics)
+{
+    <li class="list-group-item d-flex justify-content-between align-items-center @(dark ? "bg-dark text-light border-secondary" : null)">
+        <div>
+            <a href="/forum/topic/@t.Id"><strong>@t.Title</strong></a>
+            <div class="small @(dark ? "text-secondary" : "text-muted")">@Localizer["Author"] @t.CreatorName вЂў @Localizer["Tags"] @t.Tags</div>
+        </div>
+        <span class="badge @(dark ? "bg-light text-dark" : "bg-secondary")">@t.CreatedAt.ToLocalTime()</span>
+    </li>
+}
+</ul>
+

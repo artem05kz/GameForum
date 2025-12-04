@@ -1,0 +1,58 @@
+services:
+  gameforum:
+    build:
+      context: ./GameForum
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=db;Database=testdb;Uid=root;Pwd=pass;
+      - Redis__Configuration=redis:6379,abortConnect=false
+      - Redis__InstanceName=gameforum
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:1.25-alpine
+    depends_on:
+      - gameforum
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/static:/opt/site-static:ro
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: testdb
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:
+  redis_data:

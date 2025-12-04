@@ -1,0 +1,40 @@
+# .NET build
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# Logs / temp
+*.log
+logs/
+*.tmp
+.tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Publish outputs
+**/publish/
+
+# Node
+node_modules/
+
+# Secrets
+secrets.json
+*.secret.json
+.env
+.env.*
+
+# Local config overrides
+appsettings.Local.json
+
+# Images generated at runtime
+GameForum/wwwroot/stats/*.png

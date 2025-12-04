@@ -1,0 +1,29 @@
+@page
+@model GameForum.Pages.StatsModel
+@{
+    ViewData["Title"] = "Статистика";
+}
+
+<h2>Статистика</h2>
+<p class="text-muted">Графики формируются из сгенерированных фикстур и помечаются полупрозрачным водяным знаком.</p>
+
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Пользователи онлайн по дням (Line)</div>
+      <img class="card-img" src="@Model.LineChart" alt="Users online" />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Сообщения по дням (Bar)</div>
+      <img class="card-img" src="@Model.BarChart" alt="Messages" />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Новые темы по дням недели (Pie)</div>
+      <img class="card-img" src="@Model.PieChart" alt="Topics by weekday" />
+    </div>
+  </div>
+</div>

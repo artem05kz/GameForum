@@ -1,0 +1,38 @@
+@page
+@model GameForum.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Пользователи";
+}
+
+<h1>Пользователи</h1>
+<p>
+    <a class="btn btn-primary" href="/admin/users/create">Добавить пользователя</a>
+    <a class="btn btn-secondary" href="/admin">Назад в админку</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Логин</th>
+            <th>Имя (DisplayName)</th>
+            <th>Админ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var u in Model.Users)
+    {
+        <tr>
+            <td>@u.Id</td>
+            <td>@u.Username</td>
+            <td>@u.DisplayName</td>
+            <td>@(u.IsAdmin ? "Да" : "Нет")</td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" href="/admin/users/edit/@u.Id">Изменить</a>
+                <a class="btn btn-sm btn-outline-danger" href="/admin/users/delete/@u.Id">Удалить</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+

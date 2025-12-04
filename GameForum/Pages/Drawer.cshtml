@@ -1,0 +1,86 @@
+﻿@page "/Drawer/{id?}"
+@model GameForum.Pages.DrawerModel
+@{
+    ViewData["Title"] = "SVG Drawer";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Генератор SVG фигур (битовые операции)</h2>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (Model.HasId && string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="text-center mb-4">
+            <div class="border rounded p-3 bg-light">
+                <img src="/api/drawer/@Model.Id" alt="Generated SVG" style="max-width: 300px; max-height: 300px;" />
+            </div>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Битовое кодирование параметров:</h5>
+
+            <div class="mb-3">
+                <strong>Структура 32-битного числа:</strong>
+                <div class="bg-light p-2 rounded">
+                    <small>
+                        3 бита - тип фигуры | 3 бита - цвет | 8 бит - параметр 1 | 8 бит - параметр 2 | 8 бит - параметр 3
+                    </small>
+                </div>
+            </div>
+
+            <h6>Типы фигур (3 бита):</h6>
+            <ul>
+                <li>0 - Круг (1 параметр: радиус)</li>
+                <li>1 - Прямоугольник (2 параметра: ширина, высота)</li>
+                <li>2 - Звезда (1 параметр: размер)</li>
+                <li>3 - Треугольник (1 параметр: размер)</li>
+                <li>4 - Эллипс (2 параметра: радиус X, радиус Y)</li>
+            </ul>
+
+            <h6>Цвета (3 бита):</h6>
+            <ul>
+                <li>0-красный, 1-зеленый, 2-синий, 3-желтый</li>
+                <li>4-фиолетовый, 5-оранжевый, 6-серый, 7-черный</li>
+            </ul>
+
+            <h6>Примеры вычисления чисел:</h6>
+            <div class="bg-light p-3 rounded">
+                <p><strong>Круг (тип=0), зеленый (цвет=1), радиус=4:</strong></p>
+                <code>
+                    число = (0 << 29) | (1 << 26) | (4 << 18)<br>
+                    число = 0 + 67108864 + 1048576 = 68157440<br>
+                    <a href="/Drawer/68157440">/Drawer/68157440</a>
+                </code>
+
+                <p class="mt-2"><strong>Прямоугольник (тип=1), синий (цвет=2), 6×8:</strong></p>
+                <code>
+                    число = (1 << 29) | (2 << 26) | (6 << 18) | (8 << 10)<br>
+                    число = 536870912 + 134217728 + 1572864 + 8192 = 672652696<br>
+                    <a href="/Drawer/672652696">/Drawer/672652696</a>
+                </code>
+
+                <p class="mt-2"><strong>Звезда (тип=2), желтый (цвет=3), размер=5:</strong></p>
+                <code>
+                    число = (2 << 29) | (3 << 26) | (5 << 18)<br>
+                    число = 1073741824 + 201326592 + 1310720 = 1276385280<br>
+                    <a href="/Drawer/1276385280">/Drawer/1276385280</a>
+                </code>
+            </div>
+
+            <p class="mt-3">
+                Готовые примеры:
+                <a href="/Drawer/68157440">Круг</a>,
+                <a href="/Drawer/672652696">Прямоугольник</a>,
+                <a href="/Drawer/1276385280">Звезда</a>
+            </p>
+        </div>
+    </div>
+</div>

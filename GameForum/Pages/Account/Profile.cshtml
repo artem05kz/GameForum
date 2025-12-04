@@ -1,0 +1,64 @@
+@page
+@model GameForum.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = "Профиль";
+}
+<h1>Профиль</h1>
+
+<form method="post" asp-page-handler="UpdateName" class="mb-4">
+    <h5>Изменить отображаемое имя</h5>
+    <div class="mb-3">
+        <label asp-for="DisplayName" class="form-label">Отображаемое имя</label>
+        <input asp-for="DisplayName" class="form-control" />
+        <span asp-validation-for="DisplayName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить имя</button>
+</form>
+
+<form method="post" asp-page-handler="ChangePassword">
+    <h5>Сменить пароль</h5>
+    <div class="mb-3">
+        <label asp-for="PasswordInput.CurrentPassword" class="form-label">Текущий пароль</label>
+        <input asp-for="PasswordInput.CurrentPassword" type="password" class="form-control" />
+        <span asp-validation-for="PasswordInput.CurrentPassword" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PasswordInput.NewPassword" class="form-label">Новый пароль</label>
+        <input asp-for="PasswordInput.NewPassword" type="password" class="form-control" />
+        <span asp-validation-for="PasswordInput.NewPassword" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PasswordInput.ConfirmPassword" class="form-label">Подтверждение пароля</label>
+        <input asp-for="PasswordInput.ConfirmPassword" type="password" class="form-control" />
+        <span asp-validation-for="PasswordInput.ConfirmPassword" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-warning">Сменить пароль</button>
+</form>
+
+<hr class="my-4" />
+
+<section>
+    <h5>Личные заметки (хранятся в Redis)</h5>
+
+    @if (!string.IsNullOrWhiteSpace(Model.SavedNote))
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="text-muted mb-1">Сохранённая заметка:</div>
+                <div style="white-space: pre-wrap">@Model.SavedNote</div>
+            </div>
+        </div>
+        <form method="post" asp-page-handler="DeleteNote" class="mb-3">
+            <button type="submit" class="btn btn-danger">Удалить заметку</button>
+        </form>
+    }
+
+    <form method="post" asp-page-handler="SaveNote">
+        <div class="mb-3">
+            <label asp-for="NotesInput.Content" class="form-label">Новая заметка</label>
+            <textarea asp-for="NotesInput.Content" class="form-control" rows="4" maxlength="1000"></textarea>
+            <span asp-validation-for="NotesInput.Content" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить заметку</button>
+    </form>
+</section>

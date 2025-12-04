@@ -1,0 +1,128 @@
+﻿@page
+@model GameForum.Pages.ServerInfoModel
+@{
+    ViewData["Title"] = "Информация о сервере";
+}
+
+<h2>Информация о сервере и системе</h2>
+
+<button type="button" class="btn btn-primary mb-3" onclick="loadServerInfo()">Обновить информацию</button>
+
+<div id="serverInfo">
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function loadServerInfo() {
+            fetch('/api/serverinfo')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('serverInfo').innerHTML = formatServerInfo(data);
+                })
+                .catch(error => {
+                    document.getElementById('serverInfo').innerHTML = '<div class="alert alert-danger">Ошибка загрузки информации: ' + error + '</div>';
+                });
+        }
+
+        function formatServerInfo(data) {
+            return `
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Основная информация</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Имя машины:</strong> ${data.machineName}</p>
+                                <p><strong>ОС:</strong> ${data.osVersion}</p>
+                                <p><strong>Версия .NET:</strong> ${data.runtimeVersion}</p>
+                                <p><strong>Архитектура ОС:</strong> ${data.osArchitecture}</p>
+                                <p><strong>Архитектура процесса:</strong> ${data.processArchitecture}</p>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Информация о процессе</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>ID процесса:</strong> ${data.processId}</p>
+                                <p><strong>Текущая директория:</strong> ${data.currentDirectory}</p>
+                                <p><strong>Домен пользователя:</strong> ${data.userDomainName}</p>
+                                <p><strong>Имя пользователя:</strong> ${data.userName}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">Системная информация</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Количество процессоров:</strong> ${data.processorCount}</p>
+                                <p><strong>Размер страницы:</strong> ${data.systemPageSize} байт</p>
+                                <p><strong>Время работы системы:</strong> ${Math.round(data.tickCount / 3600000)} часов</p>
+                                <p><strong>Используемая память:</strong> ${(data.workingSet / 1024 / 1024).toFixed(2)} МБ</p>
+                                <p><strong>64-битный процесс:</strong> ${data.is64BitProcess ? 'Да' : 'Нет'}</p>
+                                <p><strong>64-битная ОС:</strong> ${data.is64BitOs ? 'Да' : 'Нет'}</p>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">Дисковая информация</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Логические диски:</strong> ${data.logicalDrives.join(', ')}</p>
+                                ${data.currentDriveInfo && data.currentDriveInfo.name ?
+                                    `<p><strong>Текущий диск:</strong> ${data.currentDriveInfo.name}</p>
+                                     <p><strong>Общий размер:</strong> ${(data.currentDriveInfo.totalSize / 1024 / 1024 / 1024).toFixed(2)} ГБ</p>
+                                     <p><strong>Свободно:</strong> ${(data.currentDriveInfo.availableSpace / 1024 / 1024 / 1024).toFixed(2)} ГБ</p>`
+                                    : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Запущенные процессы (первые 10)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Имя</th>
+                                        <th>Время запуска</th>
+                                        <th>Память</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.processes.map(p => `
+                                        <tr>
+                                            <td>${p.id}</td>
+                                            <td>${p.name}</td>
+                                            <td>${new Date(p.startTime).toLocaleString()}</td>
+                                            <td>${(p.memory / 1024 / 1024).toFixed(2)} МБ</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Загружаем информацию при открытии страницы
+        window.onload = loadServerInfo;
+    </script>
+}

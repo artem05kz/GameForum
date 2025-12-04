@@ -1,0 +1,26 @@
+@page
+@model GameForum.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+<h1>Регистрация</h1>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Input.Username" class="form-label"></label>
+        <input asp-for="Input.Username" class="form-control" />
+        <span asp-validation-for="Input.Username" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.DisplayName" class="form-label"></label>
+        <input asp-for="Input.DisplayName" class="form-control" />
+        <span asp-validation-for="Input.DisplayName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.Password" class="form-label"></label>
+        <input asp-for="Input.Password" type="password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    <a class="btn btn-secondary" href="/">Отмена</a>
+</form>
+
