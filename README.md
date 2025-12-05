@@ -71,6 +71,11 @@ dotnet run
 ## Генерация статистики
 - Сервис `StatsService` генерирует фиктивные данные (Bogus), строит графики (ScottPlot) и добавляет водяной знак (ImageSharp).
 - Изображения сохраняются в `wwwroot/stats` и доступны на страницах статистики.
+## Скриншоты
+![login](img/login.png)
+![forum](img/forum.png)
+![main](img/main.png)
+
 
 ## Полезно знать
 - Логи: уровень для сессий включён в `appsettings.json` (`Microsoft.AspNetCore.Session: Information`).
